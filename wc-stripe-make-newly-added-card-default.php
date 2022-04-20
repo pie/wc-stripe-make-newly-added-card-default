@@ -29,9 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return [type]                  [description]
  */
 function make_new_card_default( $customer_id, $card_token, $stripe_response ) {
-    $user_id         = get_current_user_id();
-    $stripe_customer = new \WC_Stripe_Customer( $user_id );
+    $stripe_customer = new \WC_Stripe_Customer( $customer_id );
     $stripe_customer->set_default_card( $card_token->get_token() );
     \WC_Payment_Tokens::set_users_default( $user_id, intval( $card_token->get_id() ) );
 }
-add_action( 'woocommerce_stripe_add_card', __NAMESPACE__ . '\\make_new_card_default', 10, 3 );
+add_action( 'woocommerce_stripe_add_card', __NAMESPACE__ . '\make_new_card_default', 10, 3 );
